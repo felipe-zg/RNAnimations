@@ -14,7 +14,6 @@ const Ball = () => {
         x: 300,
         y: 500,
       },
-      duration: 3000,
     }).start();
   };
 
