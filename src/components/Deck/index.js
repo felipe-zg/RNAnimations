@@ -4,6 +4,7 @@ import { View, Animated, PanResponder, Dimensions } from "react-native";
 import { AnimatedCard } from "./styles";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
 
 const Deck = ({ data, renderItem }) => {
   const position = useRef(new Animated.ValueXY()).current;
@@ -17,7 +18,13 @@ const Deck = ({ data, renderItem }) => {
         position.setValue({ x: gesture.dx, y: gesture.dy });
       },
       onPanResponderRelease: (event, gesture) => {
-        resetCardPosition();
+        if (gesture.dx > SWIPE_THRESHOLD) {
+          console.log("swiped right");
+        } else if (gesture.dx < -SWIPE_THRESHOLD) {
+          console.log("swiped left");
+        } else {
+          resetCardPosition();
+        }
       },
     })
   ).current;
