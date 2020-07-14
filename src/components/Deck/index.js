@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { View, Animated, PanResponder } from "react-native";
 
-import { Container } from "./styles";
+import { AnimatedCard } from "./styles";
 
 const Deck = ({ data, renderItem }) => {
   const position = useRef(new Animated.ValueXY()).current;
@@ -17,11 +17,25 @@ const Deck = ({ data, renderItem }) => {
       onPanResponderRelease: (event, gesture) => {},
     })
   ).current;
-  return (
-    <Container style={position.getLayout()} {...panResponder.panHandlers}>
-      {data.map((item) => renderItem(item))}
-    </Container>
-  );
+
+  const getCardLayout = () => {
+    return {
+      ...position.getLayout(),
+      transform: [{ rotate: "45deg" }],
+    };
+  };
+
+  return data.map((item, index) => {
+    if (index === 0) {
+      return (
+        <AnimatedCard style={getCardLayout()} {...panResponder.panHandlers}>
+          {renderItem(item)}
+        </AnimatedCard>
+      );
+    } else {
+      return <View>{renderItem(item)}</View>;
+    }
+  });
 };
 
 export default Deck;
