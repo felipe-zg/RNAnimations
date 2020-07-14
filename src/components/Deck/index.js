@@ -1,7 +1,9 @@
 import React, { useRef } from "react";
-import { View, Animated, PanResponder } from "react-native";
+import { View, Animated, PanResponder, Dimensions } from "react-native";
 
 import { AnimatedCard } from "./styles";
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const Deck = ({ data, renderItem }) => {
   const position = useRef(new Animated.ValueXY()).current;
@@ -14,14 +16,29 @@ const Deck = ({ data, renderItem }) => {
       onPanResponderMove: (event, gesture) => {
         position.setValue({ x: gesture.dx, y: gesture.dy });
       },
-      onPanResponderRelease: (event, gesture) => {},
+      onPanResponderRelease: (event, gesture) => {
+        resetCardPosition();
+      },
     })
   ).current;
 
+  const resetCardPosition = () => {
+    Animated.spring(position, {
+      toValue: {
+        x: 0,
+        y: 0,
+      },
+    }).start();
+  };
+
   const getCardLayout = () => {
+    const rotate = position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH * 1.5, 0, SCREEN_WIDTH * 1.5],
+      outputRange: ["-120deg", "0deg", "120deg"],
+    });
     return {
       ...position.getLayout(),
-      transform: [{ rotate: "45deg" }],
+      transform: [{ rotate }],
     };
   };
 
