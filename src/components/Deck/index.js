@@ -3,8 +3,8 @@ import { View, Animated } from "react-native";
 
 import { Container } from "./styles";
 
-const Deck = () => {
-  return <Container />;
+const Deck = ({ data, renderItem }) => {
+  return <Container>{data.map((item) => renderItem(item))}</Container>;
 };
 
 export default Deck;

@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Animated } from "react-native";
 
 import Deck from "./src/components/Deck";
+import Card from "./src/components/Card";
 
 const DATA = [
   {
@@ -47,8 +48,12 @@ const DATA = [
   },
 ];
 
+const renderItem = (item) => {
+  return <Card item={item} key={item.id} />;
+};
+
 export default function App() {
-  return <Deck />;
+  return <Deck data={DATA} renderItem={renderItem} />;
 }
 
 const styles = StyleSheet.create({
