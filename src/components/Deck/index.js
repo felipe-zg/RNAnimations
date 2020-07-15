@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { View, Animated, PanResponder, Dimensions } from "react-native";
 
-import { AnimatedCard } from "./styles";
+import { AnimatedCard, StaticCard } from "./styles";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
@@ -11,7 +11,9 @@ const Deck = ({
   data,
   renderItem,
   onSwipeRight = () => {},
-  onSwipeLeft = () => {},
+  onSwipeLeft = () => {
+    console.warn("default left swipe");
+  },
 }) => {
   const [currentCard, setCurrentCard] = useState(0);
   const position = useRef(new Animated.ValueXY()).current;
@@ -68,21 +70,27 @@ const Deck = ({
     position.setValue({ x: 0, y: 0 });
   };
 
-  return data.map((item, index) => {
-    if (index === currentCard) {
-      return (
-        <AnimatedCard
-          key={item.id}
-          style={getCardLayout()}
-          {...panResponder.panHandlers}
-        >
-          {renderItem(item)}
-        </AnimatedCard>
-      );
-    } else {
-      return <View key={item.id}>{renderItem(item)}</View>;
-    }
-  });
+  return data
+    .map((item, index) => {
+      if (index < currentCard) {
+        return;
+      }
+      if (index === currentCard) {
+        console.warn(currentCard);
+        return (
+          <AnimatedCard
+            key={item.id}
+            style={getCardLayout()}
+            {...panResponder.panHandlers}
+          >
+            {renderItem(item)}
+          </AnimatedCard>
+        );
+      } else {
+        return <StaticCard key={item.id}>{renderItem(item)}</StaticCard>;
+      }
+    })
+    .reverse();
 };
 
 export default Deck;

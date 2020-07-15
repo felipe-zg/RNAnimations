@@ -2,12 +2,12 @@ import styled from "styled-components/native";
 import { Dimensions } from "react-native";
 
 const SCREEN_HEIGH = Dimensions.get("screen").height;
+const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 export const Container = styled.View`
   margin: 19px 20px;
   border-radius: 10px;
   border: 1px solid #1c1c1c;
-  height: ${SCREEN_HEIGH * 0.8}px;
   overflow: hidden;
 `;
 

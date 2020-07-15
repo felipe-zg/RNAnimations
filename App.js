@@ -53,7 +53,15 @@ const renderItem = (item) => {
 };
 
 export default function App() {
-  return <Deck data={DATA} renderItem={renderItem} />;
+  return (
+    <Deck
+      data={DATA}
+      renderItem={renderItem}
+      onSwipeRight={() => {
+        console.warn("swiped right");
+      }}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
