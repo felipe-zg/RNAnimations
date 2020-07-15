@@ -9,7 +9,6 @@ export const Container = styled.View`
   border: 1px solid #1c1c1c;
   height: ${SCREEN_HEIGH * 0.8}px;
   overflow: hidden;
-  background: #ddd;
 `;
 
 export const Image = styled.Image`

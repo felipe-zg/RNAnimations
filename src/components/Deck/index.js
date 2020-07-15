@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { View, Animated, PanResponder, Dimensions } from "react-native";
 
 import { AnimatedCard } from "./styles";
@@ -7,7 +7,13 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
 const FORCE_SWIPE_DURATION = 250;
 
-const Deck = ({ data, renderItem }) => {
+const Deck = ({
+  data,
+  renderItem,
+  onSwipeRight = () => {},
+  onSwipeLeft = () => {},
+}) => {
+  const [currentCard, setCurrentCard] = useState(0);
   const position = useRef(new Animated.ValueXY()).current;
   const panResponder = useRef(
     PanResponder.create({
@@ -37,14 +43,6 @@ const Deck = ({ data, renderItem }) => {
     }).start();
   };
 
-  const forceSwipe = (x, y) => {
-    Animated.timing(position, {
-      toValue: { x, y },
-      duration: FORCE_SWIPE_DURATION,
-      useNativeDriver: false,
-    }).start();
-  };
-
   const getCardLayout = () => {
     const rotate = position.x.interpolate({
       inputRange: [-SCREEN_WIDTH * 1.5, 0, SCREEN_WIDTH * 1.5],
@@ -56,8 +54,22 @@ const Deck = ({ data, renderItem }) => {
     };
   };
 
+  const forceSwipe = (x, y) => {
+    Animated.timing(position, {
+      toValue: { x, y },
+      duration: FORCE_SWIPE_DURATION,
+      useNativeDriver: false,
+    }).start(() => onSwipeComplete(x));
+  };
+
+  const onSwipeComplete = (direction) => {
+    direction > 0 ? onSwipeRight() : onSwipeLeft();
+    setCurrentCard(currentCard + 1);
+    position.setValue({ x: 0, y: 0 });
+  };
+
   return data.map((item, index) => {
-    if (index === 0) {
+    if (index === currentCard) {
       return (
         <AnimatedCard
           key={item.id}
