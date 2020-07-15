@@ -49,7 +49,7 @@ const DATA = [
 ];
 
 const renderItem = (item) => {
-  return <Card item={item} key={item.id} />;
+  return <Card item={item} />;
 };
 
 export default function App() {

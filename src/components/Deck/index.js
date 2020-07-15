@@ -5,23 +5,21 @@ import { AnimatedCard } from "./styles";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
+const FORCE_SWIPE_DURATION = 250;
 
 const Deck = ({ data, renderItem }) => {
   const position = useRef(new Animated.ValueXY()).current;
   const panResponder = useRef(
     PanResponder.create({
-      //What are we touchibg
-      // What components is handling the Touch
-      // How the gesture changes
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (event, gesture) => {
         position.setValue({ x: gesture.dx, y: gesture.dy });
       },
       onPanResponderRelease: (event, gesture) => {
         if (gesture.dx > SWIPE_THRESHOLD) {
-          console.log("swiped right");
+          forceSwipe(SCREEN_WIDTH * 2, 0);
         } else if (gesture.dx < -SWIPE_THRESHOLD) {
-          console.log("swiped left");
+          forceSwipe(-SCREEN_WIDTH * 2, 0);
         } else {
           resetCardPosition();
         }
@@ -35,6 +33,15 @@ const Deck = ({ data, renderItem }) => {
         x: 0,
         y: 0,
       },
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const forceSwipe = (x, y) => {
+    Animated.timing(position, {
+      toValue: { x, y },
+      duration: FORCE_SWIPE_DURATION,
+      useNativeDriver: false,
     }).start();
   };
 
@@ -52,12 +59,16 @@ const Deck = ({ data, renderItem }) => {
   return data.map((item, index) => {
     if (index === 0) {
       return (
-        <AnimatedCard style={getCardLayout()} {...panResponder.panHandlers}>
+        <AnimatedCard
+          key={item.id}
+          style={getCardLayout()}
+          {...panResponder.panHandlers}
+        >
           {renderItem(item)}
         </AnimatedCard>
       );
     } else {
-      return <View>{renderItem(item)}</View>;
+      return <View key={item.id}>{renderItem(item)}</View>;
     }
   });
 };
