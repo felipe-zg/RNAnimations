@@ -5,9 +5,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export const AnimatedCard = styled(Animated.View)`
   position: absolute;
-  width: ${SCREEN_WIDTH};
-`;
-export const StaticCard = styled.View`
-  position: absolute;
-  width: ${SCREEN_WIDTH};
+  width: ${SCREEN_WIDTH}px;
+  top: ${(props) =>
+    10 * (props.cascadeIndex - props.cascadeCurrentCard || 0)}px;
 `;

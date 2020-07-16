@@ -2,13 +2,13 @@ import styled from "styled-components/native";
 import { Dimensions } from "react-native";
 
 const SCREEN_HEIGH = Dimensions.get("screen").height;
-const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 export const Container = styled.View`
   margin: 19px 20px;
   border-radius: 10px;
   border: 1px solid #1c1c1c;
   overflow: hidden;
+  background: #ddd;
 `;
 
 export const Image = styled.Image`
@@ -19,5 +19,5 @@ export const Title = styled.Text`
   font-size: 16px;
   color: #1c1c1c;
   font-weight: bold;
-  margin: 20px 10px 0 10px;
+  margin: 20px 10px 10px 10px;
 `;

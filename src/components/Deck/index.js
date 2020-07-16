@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { View, Animated, PanResponder, Dimensions } from "react-native";
 
-import { AnimatedCard, StaticCard } from "./styles";
+import { AnimatedCard } from "./styles";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
@@ -87,7 +87,15 @@ const Deck = ({
           </AnimatedCard>
         );
       } else {
-        return <StaticCard key={item.id}>{renderCard(item)}</StaticCard>;
+        return (
+          <AnimatedCard
+            key={item.id}
+            cascadeIndex={index}
+            cascadeCurrentCard={currentCard}
+          >
+            {renderCard(item)}
+          </AnimatedCard>
+        );
       }
     })
     .reverse();
