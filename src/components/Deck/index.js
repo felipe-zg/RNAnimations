@@ -30,6 +30,10 @@ const Deck = ({
     LayoutAnimation.spring();
   }, [currentCard]);
 
+  useEffect(() => {
+    setCurrentCard(0);
+  }, [data]);
+
   const position = useRef(new Animated.ValueXY()).current;
   const panResponder = useRef(
     PanResponder.create({
