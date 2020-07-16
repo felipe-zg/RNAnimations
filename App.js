@@ -56,7 +56,7 @@ export default function App() {
   return (
     <Deck
       data={DATA}
-      renderItem={renderItem}
+      renderCard={renderItem}
       onSwipeRight={() => {
         console.warn("swiped right");
       }}

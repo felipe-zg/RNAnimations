@@ -9,7 +9,7 @@ const FORCE_SWIPE_DURATION = 250;
 
 const Deck = ({
   data,
-  renderItem,
+  renderCard,
   onSwipeRight = () => {},
   onSwipeLeft = () => {
     console.warn("default left swipe");
@@ -83,11 +83,11 @@ const Deck = ({
             style={getCardLayout()}
             {...panResponder.panHandlers}
           >
-            {renderItem(item)}
+            {renderCard(item)}
           </AnimatedCard>
         );
       } else {
-        return <StaticCard key={item.id}>{renderItem(item)}</StaticCard>;
+        return <StaticCard key={item.id}>{renderCard(item)}</StaticCard>;
       }
     })
     .reverse();
