@@ -1,5 +1,12 @@
-import React, { useRef, useState } from "react";
-import { View, Animated, PanResponder, Dimensions } from "react-native";
+import React, { useRef, useState, useEffect } from "react";
+import {
+  View,
+  Animated,
+  PanResponder,
+  LayoutAnimation,
+  UIManager,
+  Dimensions,
+} from "react-native";
 
 import { AnimatedCard } from "./styles";
 
@@ -16,6 +23,13 @@ const Deck = ({
   },
 }) => {
   const [currentCard, setCurrentCard] = useState(0);
+
+  useEffect(() => {
+    UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    LayoutAnimation.spring();
+  }, [currentCard]);
+
   const position = useRef(new Animated.ValueXY()).current;
   const panResponder = useRef(
     PanResponder.create({
