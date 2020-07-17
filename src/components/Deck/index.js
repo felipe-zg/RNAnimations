@@ -30,12 +30,6 @@ const Deck = ({
   const [currentCard, setCurrentCard] = useState(0);
 
   useEffect(() => {
-    UIManager.setLayoutAnimationEnabledExperimental &&
-      UIManager.setLayoutAnimationEnabledExperimental(true);
-    LayoutAnimation.spring();
-  }, [currentCard]);
-
-  useEffect(() => {
     setCurrentCard(0);
   }, [data]);
 
@@ -160,8 +154,6 @@ const Deck = ({
               transform: [{ scale: getNextCardScale() }],
             }}
             key={item.id}
-            cascadeIndex={index}
-            cascadeCurrentCard={currentCard}
           >
             {renderCard(item)}
           </AnimatedCard>

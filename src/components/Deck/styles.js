@@ -6,8 +6,6 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 export const AnimatedCard = styled(Animated.View)`
   position: absolute;
   width: ${SCREEN_WIDTH}px;
-  top: ${(props) =>
-    10 * (props.cascadeIndex - props.cascadeCurrentCard || 0)}px;
 `;
 
 export const AnimatedLikeText = styled(Animated.View)`
