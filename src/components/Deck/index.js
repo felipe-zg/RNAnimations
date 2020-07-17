@@ -8,7 +8,12 @@ import {
   Dimensions,
 } from "react-native";
 
-import { AnimatedCard } from "./styles";
+import {
+  AnimatedCard,
+  AnimatedLikeText,
+  AnimatedDislikeText,
+  YupNopeText,
+} from "./styles";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
@@ -74,6 +79,24 @@ const Deck = ({
     };
   };
 
+  const getLikeOpacity = () => {
+    const likeOpacity = position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+      outputRange: [0, 0, 1],
+      extrapolate: "clamp",
+    });
+    return likeOpacity;
+  };
+
+  const getDislikeOpacity = () => {
+    const dislikeOpacity = position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+      outputRange: [1, 0, 0],
+      extrapolate: "clamp",
+    });
+    return dislikeOpacity;
+  };
+
   const forceSwipe = (x, y) => {
     Animated.timing(position, {
       toValue: { x, y },
@@ -101,6 +124,13 @@ const Deck = ({
             style={getCardLayout()}
             {...panResponder.panHandlers}
           >
+            <AnimatedLikeText style={{ opacity: getLikeOpacity() }}>
+              <YupNopeText color="green">LIKE</YupNopeText>
+            </AnimatedLikeText>
+            <AnimatedDislikeText style={{ opacity: getDislikeOpacity() }}>
+              <YupNopeText color="red">NOPE</YupNopeText>
+            </AnimatedDislikeText>
+
             {renderCard(item)}
           </AnimatedCard>
         );
