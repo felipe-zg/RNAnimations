@@ -69,7 +69,7 @@ const Deck = ({
   };
 
   const getCardLayout = () => {
-    const rotate = position.x.interpolate({
+    let rotate = position.x.interpolate({
       inputRange: [-SCREEN_WIDTH * 1.5, 0, SCREEN_WIDTH * 1.5],
       outputRange: ["-120deg", "0deg", "120deg"],
     });
@@ -80,7 +80,7 @@ const Deck = ({
   };
 
   const getLikeOpacity = () => {
-    const likeOpacity = position.x.interpolate({
+    let likeOpacity = position.x.interpolate({
       inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
       outputRange: [0, 0, 1],
       extrapolate: "clamp",
@@ -89,12 +89,30 @@ const Deck = ({
   };
 
   const getDislikeOpacity = () => {
-    const dislikeOpacity = position.x.interpolate({
+    let dislikeOpacity = position.x.interpolate({
       inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
       outputRange: [1, 0, 0],
       extrapolate: "clamp",
     });
     return dislikeOpacity;
+  };
+
+  const getNextCardOpacity = () => {
+    let nextCardOpacity = position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+      outputRange: [1, 0, 1],
+      extrapolate: "clamp",
+    });
+    return nextCardOpacity;
+  };
+
+  const getNextCardScale = () => {
+    let nextCardScale = position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+      outputRange: [1, 0.9, 1],
+      extrapolate: "clamp",
+    });
+    return nextCardScale;
   };
 
   const forceSwipe = (x, y) => {
@@ -137,6 +155,10 @@ const Deck = ({
       } else {
         return (
           <AnimatedCard
+            style={{
+              opacity: getNextCardOpacity(),
+              transform: [{ scale: getNextCardScale() }],
+            }}
             key={item.id}
             cascadeIndex={index}
             cascadeCurrentCard={currentCard}
